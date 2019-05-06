@@ -1,0 +1,15 @@
+{
+    "name": "Auditor_dependencies",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Mickael Bonjour",
+    "license": "ISC",
+    "dependencies": {
+        "dgram": "^1.0.1",
+        "net": "^1.0.2"
+    }
+}
