@@ -4,10 +4,10 @@ var net = require('net');
 var moment = require('moment')
 
 const TCP_PORT = 2205;
-const HOST = "127.0.0.1";
 
 const PROTOCOL_MULTICAST_ADDRESS = "239.255.22.5";
 const PROTOCOL_PORT = 9907;
+
 var songs = new Map();
 songs.set( "ti-ta-ti","piano");
 songs.set( "pouet", "trumpet");
@@ -17,34 +17,58 @@ songs.set( "boum-boum","drum");
 
 var musicians = new Map();
 
-function addMusician(msg){
+function addMusician(msg) {
     var musician = JSON.parse(msg);
-    musician.timestamp = Date.now();
-    musician.instrument = songs.get(musician.MUSIC);
-    musicians.set(musician.UUID, musician)
+    var storedMusician = {
+        uuid : musician.UUID,
+        instrument : songs.get(musician.MUSIC),
+        lastSend : musician.timestamp
+    }
+    if(musicians.has(musician.UUID)) {
+        musicians.get(musician.UUID).lastSend = storedMusician.lastSend;
+    } else {
+        storedMusician.activeSince = storedMusician.lastSend;
+        musicians.set(storedMusician.uuid, storedMusician);
+    }
 }
 
-server.bind(PROTOCOL_PORT, function() {
-    console.log("Joining multicast group");
+server.bind(PROTOCOL_PORT, () => {
     server.addMembership(PROTOCOL_MULTICAST_ADDRESS);
 });
 
-server.on('message', function(msg, source) {
-    //console.log("Data has arrived: " + msg + ". Source port: " + source.port);
-    //TODO: format data correctly
+server.on('message', (msg, source) => {
+    console.log(msg);
     addMusician(msg);
-    //console.log(musicians);
 });
 
 var TCPserver = net.createServer((socket) => {
-    console.log('Connection on TCP Server');
-    musicians.forEach((val, key) => {
-        socket.write(JSON.stringify(val));
-    })
+    var activeMusician = []
+    musicians.forEach((item) => {
+        // var diffSeconds = moment().diff(moment(item.lastSend), "seconds");
+        activeMusician.push({
+            uuid:item.uuid,
+            instrument : item.instrument,
+            activeSince : moment(item.activeSince).format(),
+            lastSend : moment(item.lastSend).format()
+        });
+    });
+    socket.write(JSON.stringify(activeMusician));
     socket.end();
 });
 
-TCPserver.listen(TCP_PORT, HOST);
+TCPserver.listen(TCP_PORT);
+
+function cleanPeriod(){
+    musicians.forEach((item, key, musicians) => {
+        var diffSeconds = moment().diff(moment(item.lastSend), "seconds");
+        console.log(diffSeconds)
+        if(diffSeconds > 5 ) {
+            musicians.delete(key);
+        }
+    })
+}
+
+setInterval(cleanPeriod, 100);
 
 
 

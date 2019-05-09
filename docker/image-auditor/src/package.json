@@ -1,5 +1,5 @@
 {
-    "name": "Auditor_dependencies",
+    "name": "Auditordependecies",
     "version": "1.0.0",
     "description": "",
     "main": "app.js",
@@ -10,6 +10,7 @@
     "license": "ISC",
     "dependencies": {
         "dgram": "^1.0.1",
-        "net": "^1.0.2"
+        "moment": "^2.24.0",
+        "uuid": "^3.3.2"
     }
 }
