@@ -125,17 +125,17 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | What is **npm**?  |
 | | Node Package Manager - it's the package manager for Node.JS applications for the third parties library  |
 |Question | What is the `npm install` command and what is the purpose of the `--save` flag?  |
-| | npm install will download and install a package, the --save option will save the package and it's version to package.json (to later installs) |
+| | npm install will download and install a package, the --save option will save the package and it's version to package.json (to later installs)  |
 |Question | How can we use the `https://www.npmjs.com/` web site?  |
 | | *Enter your response here...*  |
 |Question | In JavaScript, how can we **generate a UUID** compliant with RFC4122? |
-| | With the package uuid in npm  |
+| | With the package 'UUID' from npm  |
 |Question | In Node.js, how can we execute a function on a **periodic** basis? |
-| | With the *setInterval* we can set a function to be executed at intervals  |
+| | We can call the setInterval function and pass a function that will execute on a periodic basis  |
 |Question | In Node.js, how can we **emit UDP datagrams**? |
-| | We need the dgram package and create a udp4 socket  |
+| | With the dgram package, and send the object we need to send  |
 |Question | In Node.js, how can we **access the command line arguments**? |
-| | We can use process.argv[]  |
+| | We can access args with the attribut argv in process  |
 
 
 ## Task 3: package the "musician" app in a Docker image
@@ -143,17 +143,17 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | --- |
 |Question | How do we **define and build our own Docker image**?|
-| | Using a Dockerfile and build a container out of it  |
+| | docker built -t "name of the image" .  |
 |Question | How can we use the `ENTRYPOINT` statement in our Dockerfile?  |
-| | We can use it to pass args when running containers  |
+| | We can use it to pass args to the container, in fact the entrypoint allows to pass arguments and passs them to the container  |
 |Question | After building our Docker image, how do we use it to **run containers**?  |
-| | docker run -d res/musician trumpet for example  |
+| | docker run name_of_image  |
 |Question | How do we get the list of all **running containers**?  |
 | | docker ps  |
 |Question | How do we **stop/kill** one running container?  |
-| | docker stop container_name  |
+| | docker stop name_of_the_container  |
 |Question | How can we check that our running containers are effectively sending UDP datagrams?  |
-| | We can see it on Wireshark or subscribe to multicast group  |
+| | Wireshark  |
 
 
 ## Task 4: implement an "auditor" Node.js application
@@ -161,15 +161,15 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | ---  |
 |Question | With Node.js, how can we listen for UDP datagrams in a multicast group? |
-| | .addMembership(ipMulticast)  |
+| | With the dgram package we can *addMembership* to a mulitcast group and listen to it.  |
 |Question | How can we use the `Map` built-in object introduced in ECMAScript 6 to implement a **dictionary**?  |
-| | *Enter your response here...* |
+| | set function set(key, value) |
 |Question | How can we use the `Moment.js` npm module to help us with **date manipulations** and formatting?  |
-| | *Enter your response here...* |
+| | We can because of the diff function and formating correctly the date. |
 |Question | When and how do we **get rid of inactive players**?  |
-| | *Enter your response here...* |
+| | With an interval function executing all seconds |
 |Question | How do I implement a **simple TCP server** in Node.js?  |
-| | *Enter your response here...* |
+| | With the net package from npm |
 
 
 ## Task 5: package the "auditor" app in a Docker image
@@ -177,7 +177,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | --- |
 |Question | How do we validate that the whole system works, once we have built our Docker image? |
-| | *Enter your response here...* |
+| | We can simply exec validate.sh or wireshark the communications to see that it's ok. We can launch some musicians and access via TCP at the auditor to see if it recover the musicians. |
 
 
 ## Constraints
